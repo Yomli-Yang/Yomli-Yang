@@ -16,7 +16,17 @@ var display = {
     lineId: true,
     noteId: true
 },
-timeFocus = false;
+timeFocus = false, gl = false, editLine = undefined;
+
+function lineEdit(id = 0) {
+    gl = true;
+    editLine = id;
+}
+
+function cancelLineEdit() {
+    gl = false;
+    editLine = undefined;
+}
 
 function gaming() {
     if (spectral == null) {
@@ -44,7 +54,7 @@ function gaming() {
                 {line: 2, note: 6, x: 0, y: 20, endX: 0, endY: 'down', startT: 1300, endT: 1450},
                 {line: 2, note: 7, x: 0, y: 20, endX: 0, endY: 'down', startT: 1600, endT: 1700},
                 {line: 4, note: 8, x: 0, y: 20, endX: 0, endY: 'down',bezier: {x1: 0, y1: 0, x2: 0, y2: 0.5} , startT: 800, endT: 1000},
-                {line: 4, note: 9, x: 0, y: 0, endX: -30, endY: 0, startT: 0, endT: 100},
+                {line: 4, note: 9, x: 0, y: 0, endX: -15, endY: 0, startT: 0, endT: 100},
             ],
         }
     }
@@ -75,7 +85,7 @@ function gaming() {
     // init vars
     var cvs = document.getElementById('canvas');
     var lS = window.localStorage;
-    var settings = JSON.parse('{"pmyc":0,"buttonSize":100,"OFBlur":true,"bgBlur":100,"OFAudio":true,"gameAudio":100,"uiAudio":100,"touchAudio":100,"OFDyfz":true,"OFFcApzsq":true,"OFEffect":true,"OFAutoPlay":false,"proportion":"4:3"}');
+    var settings = JSON.parse('{"pmyc":0,"buttonSize":100,"OFBlur":true,"bgBlur":100,"OFAudio":true,"gameAudio":100,"uiAudio":100,"touchAudio":100,"OFDyfz":true,"OFFcApzsq":true,"OFEffect":true,"OFAutoPlay":false,"proportion":"16:9"}');
     let time = -300, startTime = 0, lineColor = '#ffffff',
     imgs = {
         tap: new Image(),
@@ -132,9 +142,13 @@ function gaming() {
                 draw(id){
                     cvs.fillStyle = lineColor;
                     cvs.strokeColor = lineColor;
-                    cvs.setTransform(1, 0, 0, 1, $('#canvas').attr('width') / 2 + this.x * 100, 1125 + this.y * 100);
-                    cvs.rotate(this.deg * Math.PI / 180);
-                    cvs.globalAlpha = this.alpha;
+                    if (gl) {
+                        cvs.setTransform(1, 0, 0, 1, $('#canvas').attr('width') / 2, 1725);
+                    } else {
+                        cvs.setTransform(1, 0, 0, 1, $('#canvas').attr('width') / 2 + this.x * 100, 1125 + this.y * 100);
+                        cvs.rotate(this.deg * Math.PI / 180);
+                        cvs.globalAlpha = this.alpha;
+                    }
                     cvs.fillRect(0 - this.width * 50, -4, this.width * 100, 8);
                     if (display.lineId) {
                         cvs.globalAlpha = 1;
@@ -208,19 +222,39 @@ function gaming() {
                                 noteImg = imgs.hold;
                                 break;
                         }
-                        cvs.setTransform(1, 0, 0, 1, $('#canvas').attr('width') / 2 + spectral.lines[this.line].x * 100, 1125 + spectral.lines[this.line].y * 100);
-                        cvs.rotate(spectral.lines[this.line].deg * Math.PI / 180);
-                        cvs.globalAlpha = 1;
-                        if (this.type == 'hold') {
-                            cvs.drawImage(noteImg, this.x * 100 - 150, 0 - (this.y * 100 + this.height * 100 - 12.5), 300, this.height * 100);
+                        if (gl) {
+                            if (this.line == editLine) {
+                                cvs.setTransform(1, 0, 0, 1, $('#canvas').attr('width') / 2, 1725);
+                                cvs.globalAlpha = 1;
+                                if (this.type == 'hold') {
+                                    cvs.drawImage(noteImg, this.x * 100 - 150, 0 - (this.y * 100 + this.height * 100 - 12.5), 300, this.height * 100);
+                                } else {
+                                    cvs.drawImage(noteImg, this.x * 100 - 150, 0 - (this.y * 100 + 12.5), 300, 25);
+                                }
+                                if (display.noteId) {
+                                    cvs.globalAlpha = 1;
+                                    cvs.fillText(id, this.x * 100, 0 - (this.y * 100 + 12.5));
+                                }
+                                cvs.restore();
+                            }
                         } else {
-                            cvs.drawImage(noteImg, this.x * 100 - 150, 0 - (this.y * 100 + 12.5), 300, 25);
-                        }
-                        if (display.noteId) {
+                            cvs.setTransform(1, 0, 0, 1, $('#canvas').attr('width') / 2 + spectral.lines[this.line].x * 100, 1125 + spectral.lines[this.line].y * 100);
+                            cvs.rotate(spectral.lines[this.line].deg * Math.PI / 180);
                             cvs.globalAlpha = 1;
-                            cvs.fillText(id, this.x * 100, 0 - (this.y * 100 + 12.5));
+                            if (this.type == 'hold') {
+                                cvs.drawImage(noteImg, this.x * 100 - 150, 0 - (this.y * 100 + this.height * 100 - 12.5), 300, this.height * 100);
+                            } else {
+                                cvs.drawImage(noteImg, this.x * 100 - 150, 0 - (this.y * 100 + 12.5), 300, 25);
+                            }
+                            if (display.noteId) {
+                                cvs.globalAlpha = 1;
+                                cvs.fillText(id, this.x * 100, 0 - (this.y * 100 + 12.5));
+                            }
+                            cvs.restore();
                         }
-                        cvs.restore();
+                        if (!gl) {
+                            
+                        }
                     }
                 }
                 move({line, x = this.x, y = this.y, endX = this.x, endY = this.y, bezier=false, startT, endT, type = 'tap', height = this.height, endHeight = this.height} = {}) {
@@ -403,13 +437,17 @@ function gaming() {
                         }
                         spectral.notes[spectral.noteMoves[i].note].move({line: spectral.noteMoves[i].line, x: spectral.noteMoves[i].x, y: spectral.noteMoves[i].y, endX: spectral.noteMoves[i].endX, endY: spectral.noteMoves[i].endY, bezier: spectral.noteMoves[i].bezier, startT: spectral.noteMoves[i].startT, endT: spectral.noteMoves[i].endT, type: spectral.noteMoves[i].type, height: spectral.noteMoves[i].height, endHeight: spectral.noteMoves[i].endHeight});
                     }
-                    for(var i = 0; i < 4;i++) {
-                        if (display.block[i]) {
+                    if (gl) {
+                        spectral.lines[editLine].draw(editLine);
+                    } else {
+                        for(var i = 0; i < 4;i++) {
+                            if (display.block[i]) {
+                                spectral.lines[i].draw(i);
+                            }
+                        }
+                        for(var i = 4; i < spectral.lines.length; i++) {
                             spectral.lines[i].draw(i);
                         }
-                    }
-                    for(var i = 4; i < spectral.lines.length; i++) {
-                        spectral.lines[i].draw(i);
                     }
                     for(var i = 0; i < spectral.notes.length; i++) {
                         if (display.block[spectral.notes[i].line] || spectral.notes[i].line > 3) {
