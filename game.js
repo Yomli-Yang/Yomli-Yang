@@ -33,28 +33,43 @@ function gaming() {
         spectral = {
             block: null,
             blockMoves: [
-                {x: 0, y: 0, deg: 360, endDeg: 0, alpha: 0, endAlpha: 1, bezier: {x1: 0.75, y1: 1, x2: 0.75, y2: 1}, startT: 0, width: 30, endWidth: 15, endT: 800},
-                {endY: 3, deg: 0, endDeg: -180, endX: 12, endWidth: 15, startT: 800, endT: 1600},
-                {endY: 0, endDeg: -90, endX: 0, endWidth: 15, startT: 1600, endT: 1800},
-                {endY: 0, endDeg: 0, endX: 0, endWidth: 15, startT: 1800, endT: 1850},
-                {endDeg: 360, endAlpha: 0, startT: 1900, endWidth: 50, endT: 2700}
+                {x: 0, y: 0, eulerAngle: 360, endEulerAngle: 0, color: {r: 255, g: 0, b: 255}, endColor: {r: 0, g: 255, b: 0}, alpha: 0, endAlpha: 1, bezier: {x1: 0.75, y1: 1, x2: 0.75, y2: 1}, startTime: 0, width: 30, endWidth: 15, endTime: 800},
+                {endY: 3, eulerAngle: 0, endEulerAngle: -180, endX: 12, endWidth: 15, startTime: 800, endTime: 1600},
+                {endY: 0, endEulerAngle: -90, endX: 0, endWidth: 15, startTime: 1600, endTime: 1800},
+                {endY: 0, endEulerAngle: 0, endX: 0, endWidth: 15, startTime: 1800, endTime: 1850},
+                {endColor: {r: 255, g: 255, b: 0}, startTime: 1850, endTime: 1850},
+                {endEulerAngle: 360, endAlpha: 0, startTime: 1900, endWidth: 50, endTime: 2700}
             ],
             lines: [],
             lineMoves: [
-                {line: 4, x: 0, y: -6, endX: 0, endY: 6, bezier: {x1: 0, y1: 0, x2: 0, y2: 1}, startT: 0, endT: 500}
+                {line: 4, y: -6, endY: 6, bezier: {x1: 0, y1: 0, x2: 0, y2: 1}, startTime: 0, endTime: 500},
+                {line: 4, color: {r: 255, g: 0, b: 0}, endColor: {r: 0, g: 255, b: 255}, bezier: {x1: 1, y1: 0, x2: 0, y2: 1}, startTime: 0, endTime: 500}
             ],
             notes: [],
             noteMoves: [
-                {line: 0, note: 0, x: 0, y: 20, endX: 0, endY: 5, startT: 1200, endT: 1350},
-                {line: 1, note: 1, x: -5, y: 20, endX: 5, endY: 'down', startT: 1300, endT: 1450},
-                {line: 0, note: 2, x: -5, y: 20, endX: 5, endY: 'down', type: 'drag', startT: 1700, endT: 1800},
-                {line: 1, note: 3, x: -5, y: 20, endX: 5, endY: 'down', type: 'hold', height: 150, endHeight: 100, startT: 1650, endT: 1750},
-                {line: 0, note: 4, x: -5, y: 20, endX: 5, endY: 'down', type: 'drag', startT: 1600, endT: 1700},
-                {line: 3, note: 5, x: 0, y: 20, endX: 0, endY: 'down', startT: 1200, endT: 1400},
-                {line: 2, note: 6, x: 0, y: 20, endX: 0, endY: 'down', startT: 1300, endT: 1450},
-                {line: 2, note: 7, x: 0, y: 20, endX: 0, endY: 'down', startT: 1600, endT: 1700},
-                {line: 4, note: 8, x: 0, y: 20, endX: 0, endY: 'down',bezier: {x1: 0, y1: 0, x2: 0, y2: 0.5} , startT: 800, endT: 1000},
-                {line: 4, note: 9, x: 0, y: 0, endX: -15, endY: 0, startT: 0, endT: 100},
+                {line: 0, note: 0, x: 0, y: 20, endX: 0, endY: 5, startTime: 1200, endTime: 1350},
+                {line: 1, note: 1, x: -5, y: 20, endX: 5, endY: 'down', startTime: 1300, endTime: 1450},
+                {line: 0, note: 2, x: -5, y: 20, endX: 5, endY: 'down', type: 'drag', startTime: 1700, endTime: 1800},
+                {line: 1, note: 3, x: -5, y: 20, endX: 5, endY: 'down', type: 'hold', height: 150, endHeight: 100, startTime: 1650, endTime: 1750},
+                {line: 0, note: 4, x: -5, y: 20, endX: 5, endY: 'down', type: 'drag', startTime: 1600, endTime: 1700},
+                {line: 3, note: 5, x: 0, y: 20, endX: 0, endY: 'down', startTime: 1200, endTime: 1400},
+                {line: 2, note: 6, x: 0, y: 20, endX: 0, endY: 'down', startTime: 1300, endTime: 1450},
+                {line: 2, note: 7, x: 0, y: 20, endX: 0, endY: 'down', startTime: 1600, endTime: 1700},
+                {line: 4, note: 8, x: 0, y: 20, endX: 0, endY: 'down',bezier: {x1: 0, y1: 0, x2: 0, y2: 0.5} , startTime: 800, endTime: 1000},
+                {line: 4, note: 9, x: 0, y: 0, endX: -15, endY: 0, startTime: 0, endTime: 100},
+            ],
+            graphics: [],
+            pointMoves: [
+                {graph: 0, point: 0, x: 0, endX: 10, startTime: 0, endTime: 600},
+                {graph: 0, point: 1, x: 0, endX: -10, startTime: 0, endTime: 600},
+                {graph: 0, point: 2, y: 0, endY: -10, bezier: {x1: 0.5, y1: 0.2, x2: 0, y2: 1.3}, startTime: 0, endTime: 600},
+                {graph: 0, point: 3, y: 0, endY: 10, bezier: {x1: 0.5, y1: 0.2, x2: 0, y2: 1.3}, startTime: 600, endTime: 800},
+                {graph: 0, point: 3, color: {r: 255, g: 255, b: 255}, endColor: {r: 60, g: 50, b: 100}, startTime: 600, endTime: 800},
+                {graph: 1, point: 0, y: 0, endY: -6, x: 0, endX: 4, bezier: {x1: 0.5, y1: 0.2, x2: 0, y2: 1.3}, startTime: 0, endTime: 600},
+                {graph: 1, point: 1, y: 0, endY: 3, bezier: {x1: 0, y1: 0.2, x2: 0, y2: 1.3}, startTime: 0, endTime: 600},
+                {graph: 1, point: 2, y: 0, endY: 3, bezier: {x1: 0, y1: 0.2, x2: 0, y2: 1.3}, startTime: 0, endTime: 600},
+                {graph: 1, point: 3, x: 0, endX: -6, y: 0, endY: 4, color: {r: 255, g: 255, b: 255}, endColor: {r: 60, g: 200, b: 250}, startTime: 0, endTime: 600},
+                {graph: 1, point: 2, endY: -1, bezier: {x1: 0, y1: 0, x2: 0.5, y2: 0.75}, startTime: 500, endTime: 1000},
             ],
         }
     }
@@ -67,13 +82,13 @@ function gaming() {
         // initCanvas
         cvs.width = 3000;
         cvs.height = 2250;
-        if (settings.proportion == '16:9' || settings.proportion == undefined) {
+        if (settings.listProportion == '16:9' || settings.proportion == undefined) {
             $('#canvas').css('width', $('body').height() / 9 * 16);
         } else {
             $('#canvas').css('width', $('body').height() / 3 * 4);
         }
         cvs = cvs.getContext('2d');
-        cvs.transform(1, 0, 0, 1, $('#canvas').attr('width') / 2, 1125);
+        cvs.setTransform(1, 0, 0, 1, $('#canvas').attr('width') / 2, 1125);
         cvs.textAlign = 'center';
         cvs.textBaseline = 'bottom';
         cvs.font = '100px Phigros, Phigros cn, Tw Cen MT'
@@ -85,8 +100,11 @@ function gaming() {
     // init vars
     var cvs = document.getElementById('canvas');
     var lS = window.localStorage;
-    var settings = JSON.parse('{"pmyc":0,"buttonSize":100,"OFBlur":true,"bgBlur":100,"OFAudio":true,"gameAudio":100,"uiAudio":100,"touchAudio":100,"OFDyfz":true,"OFFcApzsq":true,"OFEffect":true,"OFAutoPlay":false,"proportion":"16:9"}');
-    let time = -300, startTime = 0, lineColor = '#ffffff',
+    if (!lS.settings) {
+        lS['settings'] = `{"pmyc":0,"buttonSize":100,"OFBlur": true,"bgBlur":100,"OFAudio":true,"gameAudio":100,"uiAudio":100,"touchAudio":100,"OFDyfz":true,"OFFcApzsq":true,"OFEffect":true,"OFAutoPlay":false,"listProportion":"16:9"}`;
+    }
+    var settings = JSON.parse(lS.settings);
+    let time = -300, lastTime = 0, lineColor = '#ffffff',
     imgs = {
         tap: new Image(),
         drag: new Image(),
@@ -98,12 +116,21 @@ function gaming() {
     imgs.hold.src = 'img/ui/Hold2.png';
     let gameLoad = false;
     document.body.onresize = () => {
-        if (settings.proportion == '16:9' || settings.proportion == undefined) {
+        if (settings.listProportion == '16:9' || settings.listProportion == undefined) {
             $('#canvas').css('width', $('body').height() / 9 * 16);
         } else {
             $('#canvas').css('width', $('body').height() / 3 * 4);
         }
-    }
+    };
+    window.onstorage = () => {
+        console.log('refresh');
+        settings = JSON.parse(lS.settings);
+        if (settings.listProportion == '16:9' || settings.listProportion == undefined) {
+            $('#canvas').css('width', $('body').height() / 9 * 16);
+        } else {
+            $('#canvas').css('width', $('body').height() / 3 * 4);
+        }
+    };
     audio.oncanplaythrough = () => {
         if (!gameLoad) {
             console.log('loaded');
@@ -111,9 +138,18 @@ function gaming() {
             function distance(x, y, endX, endY){
                 return Math.sqrt(Math.abs(x - endX) ** 2 + Math.abs(y - endY) ** 2);
             }
-            function addLine(x, y, deg, width, alpha) {
+            function addLine(x, y, eulerAngle, width, alpha, color) {
                 $('#ui-display-lines>ul').append(`<li class="line canEdit" data-lineId="${spectral.lines.length}">line&nbsp;${spectral.lines.length}</li>`);
-                spectral.lines.push(new line(x, y, deg, width, alpha));
+                spectral.lines.push(new line(x, y, eulerAngle, width, alpha, color));
+            }
+            function addgraph() {
+                spectral.graphics.push([]);
+            }
+            function addPoint(graph = 0, x, y, alpha, color, close) {
+                while(!spectral.graphics[graph]) {
+                    addgraph();
+                }
+                spectral.graphics[graph].push(new point(graph, x, y, alpha, color, close));
             }
             function removeLine(from, to) {
                 for (let i = from; i < to; i++) {  
@@ -132,21 +168,22 @@ function gaming() {
                 spectral.notes.push(new note(line, x, y, type, trueNote, height));
             }
             class line {
-                constructor(x = 0, y = 0, deg = 0, width = 10000, alpha = 1) {
+                constructor(x = 0, y = 0, eulerAngle = 0, width = 10000, alpha = 1, color = {r: 255, g: 255, b: 255}) {
                     this.x = x;
                     this.y = y;
-                    this.deg = deg;
+                    this.eulerAngle = eulerAngle;
                     this.width = width;
                     this.alpha = alpha;
+                    this.color = color;
                 }
                 draw(id){
-                    cvs.fillStyle = lineColor;
-                    cvs.strokeColor = lineColor;
+                    cvs.fillStyle = `rgb(${this.color.r}, ${this.color.g}, ${this.color.b})`;
+                    cvs.strokeStyle = `rgb(${this.color.r}, ${this.color.g}, ${this.color.b})`;
                     if (gl) {
                         cvs.setTransform(1, 0, 0, 1, $('#canvas').attr('width') / 2, 1725);
                     } else {
                         cvs.setTransform(1, 0, 0, 1, $('#canvas').attr('width') / 2 + this.x * 100, 1125 + this.y * 100);
-                        cvs.rotate(this.deg * Math.PI / 180);
+                        cvs.rotate(this.eulerAngle * Math.PI / 180);
                         cvs.globalAlpha = this.alpha;
                     }
                     cvs.fillRect(0 - this.width * 50, -4, this.width * 100, 8);
@@ -156,48 +193,97 @@ function gaming() {
                     }
                     cvs.restore();
                 }
-                move({x = this.x, y = this.y, deg = this.deg, width = this.width, alpha = this.alpha, endX = 0, endY = 0, endDeg = 0, endWidth = 10000, endAlpha = 1, bezier = false, startT, endT} = {}) {
-                    if (time <= endT) {
+                move({x = this.x, y = this.y, eulerAngle = this.eulerAngle, width = this.width, alpha = this.alpha, color = this.color, endX = this.x, endY = this.y, endEulerAngle = this.eulerAngle, endWidth = this.width, endAlpha = this.alpha, endColor = this.color, bezier = false, startTime, endTime} = {}) {
+                    if (time <= endTime) {
                         this.x = x;
                         this.y = y;
-                        this.deg = deg;
+                        this.eulerAngle = eulerAngle;
                         this.width = width;
                         this.alpha = alpha;
+                        this.color.r = color.r;
+                        this.color.g = color.g;
+                        this.color.b = color.b;
                     }
-                    if (time >= startT && time <= endT) {
+                    if (time >= startTime && time <= endTime) {
                         if (!bezier) {
-                            let vx = (endX - x) / (endT - startT);
-                            let vy = (endY - y) / (endT - startT);
-                            let vdeg = (endDeg - deg) / (endT - startT);
-                            let vwidth = (endWidth - width) / (endT - startT);
-                            let valpha = (endAlpha - alpha) / (endT - startT);
-                            this.x = x + (time - startT) * vx;
-                            this.y = y + (time - startT) * vy;
-                            this.deg = deg + (time - startT) * vdeg;
-                            this.width = width + (time - startT) * vwidth;
-                            this.alpha = alpha + (time - startT) * valpha;
+                            if (x != endX) {
+                                let vx = (endX - x) / (endTime - startTime);
+                                this.x = x + (time - startTime) * vx;
+                            }
+                            if (y != endY) {
+                                let vy = (endY - y) / (endTime - startTime);
+                                this.y = y + (time - startTime) * vy;
+                            }
+                            if (eulerAngle != endEulerAngle) {
+                                let veulerAngle = (endEulerAngle - eulerAngle) / (endTime - startTime);
+                                this.eulerAngle = eulerAngle + (time - startTime) * veulerAngle;
+                            }
+                            if (width != endWidth) {
+                                let vwidth = (endWidth - width) / (endTime - startTime);
+                                this.width = width + (time - startTime) * vwidth;
+                            }
+                            if (alpha != endAlpha) {
+                                let valpha = (endAlpha - alpha) / (endTime - startTime);
+                                this.alpha = alpha + (time - startTime) * valpha;
+                            }
+                            if (color.r != endColor.r) {
+                                console.log(this.color.r, color.r, endColor.r);
+                                let vcolorR = (endColor.r - color.r) / (endTime - startTime);
+                                this.color.r = color.r + (time - startTime) * vcolorR;
+                            }
+                            if (color.g != endColor.g) {
+                                let vcolorG = (endColor.g - color.g) / (endTime - startTime);
+                                this.color.g = color.g + (time - startTime) * vcolorG;
+                            }
+                            if (color.b != endColor.b) {
+                                let vcolorB = (endColor.b - color.b) / (endTime - startTime);
+                                this.color.b = color.b + (time - startTime) * vcolorB;
+                            }
                         } else {
-                            let t = (time - startT) / (endT - startT);
-                            this.x = x + (endX - x) * (3 * ((1 - t) ** 2) * bezier.x1 * t + 3 * ((1 - t) ** 2) * bezier.x2 * t ** 2 + t ** 3);
-                            this.y = y + (endY - y) * (3 * ((1 - t) ** 2) * bezier.y1 * t + 3 * ((1 - t) ** 2) * bezier.y2 * t ** 2 + t ** 3);
-                            this.deg = deg + (endDeg - deg) * (3 * ((1 - t) ** 2) * bezier.y1 * t + 3 * ((1 - t) ** 2) * bezier.y2 * t ** 2 + t ** 3);
-                            this.width = width + (endWidth - width) * (3 * ((1 - t) ** 2) * bezier.y1 * t + 3 * ((1 - t) ** 2) * bezier.y2 * t ** 2 + t ** 3);
-                            this.alpha = alpha + (endAlpha - alpha) * (3 * ((1 - t) ** 2) * bezier.y1 * t + 3 * ((1 - t) ** 2) * bezier.y2 * t ** 2 + t ** 3);
+                            const t = (time - startTime) / (endTime - startTime);
+                            const BEZIER = (3 * ((1 - t) ** 2) * bezier.x1 * t + 3 * ((1 - t) ** 2) * bezier.x2 * t ** 2 + t ** 3);
+                            if (x != endX) {
+                                this.x = x + (endX - x) * BEZIER;
+                            }
+                            if (y != endY) {
+                                this.y = y + (endY - y) * BEZIER;
+                            }
+                            if (eulerAngle != endEulerAngle) {
+                                this.eulerAngle = eulerAngle + (endEulerAngle - eulerAngle) * BEZIER;
+                            }
+                            if (width != endWidth) {
+                                this.width = width + (endWidth - width) * BEZIER;
+                            }
+                            if (alpha != endAlpha) {
+                                this.alpha = alpha + (endAlpha - alpha) * BEZIER;
+                            }
+                            if (color.r != endColor.r) {
+                                this.color.r = color.r + (endColor.r - color.r) * BEZIER;
+                            }
+                            if (color.g != endColor.g) {
+                                this.color.g = color.g + (endColor.g - color.g) * BEZIER;
+                            }
+                            if (color.b != endColor.b) {
+                                this.color.b = color.b + (endColor.b - color.b) * BEZIER;
+                            }
                         }
                     }
-                    if (time > endT) {
+                    if (time > endTime) {
                         this.x = endX;
                         this.y = endY;
-                        this.deg = endDeg;
+                        this.eulerAngle = endEulerAngle;
                         this.width = endWidth;
                         this.alpha = endAlpha;
+                        this.color.r = endColor.r;
+                        this.color.g = endColor.g;
+                        this.color.b = endColor.b;
                         return true;
                     }
                     return false;
                 }
             }
             class note {
-                constructor(line = 0, x = 0, y = 5000, type = 'tap', trueNote = false, bezier = false, height = 100) {
+                constructor(line = 0, x = 0, y = 5000, type = 'tap', trueNote = false, height = 100) {
                     this.line = line;
                     this.x = x;
                     this.y = y;
@@ -239,7 +325,7 @@ function gaming() {
                             }
                         } else {
                             cvs.setTransform(1, 0, 0, 1, $('#canvas').attr('width') / 2 + spectral.lines[this.line].x * 100, 1125 + spectral.lines[this.line].y * 100);
-                            cvs.rotate(spectral.lines[this.line].deg * Math.PI / 180);
+                            cvs.rotate(spectral.lines[this.line].eulerAngle * Math.PI / 180);
                             cvs.globalAlpha = 1;
                             if (this.type == 'hold') {
                                 cvs.drawImage(noteImg, this.x * 100 - 150, 0 - (this.y * 100 + this.height * 100 - 12.5), 300, this.height * 100);
@@ -252,12 +338,9 @@ function gaming() {
                             }
                             cvs.restore();
                         }
-                        if (!gl) {
-                            
-                        }
                     }
                 }
-                move({line, x = this.x, y = this.y, endX = this.x, endY = this.y, bezier=false, startT, endT, type = 'tap', height = this.height, endHeight = this.height} = {}) {
+                move({line, x = this.x, y = this.y, endX = this.x, endY = this.y, bezier=false, startTime, endTime, type = 'tap', height = this.height, endHeight = this.height} = {}) {
                     let deleteNote = false;
                     switch(type) {
                         case 'tap':
@@ -271,20 +354,20 @@ function gaming() {
                             break;
                     }
                     if (endY == 'down') {
-                        if (time <= endT) {
+                        if (time <= endTime) {
                             endY = 0;
                         } else if (this.y > -1.5 || (this.type == 'hold' && this.y > 0 - (endHeight) - 1.5)) {
-                            let vy =  Math.abs((0 - y) / (endT - startT));
+                            let vy =  Math.abs((0 - y) / (endTime - startTime));
                             y = 0;
                             x = endX;
-                            startT = endT;
+                            startTime = endTime;
                             if (this.type == 'hold') {
                                 height = endHeight;
                                 endY = 0 - (height) - 1.5;
                             } else {
                                 endY = -1.5;
                             }
-                            endT += Math.abs(endY) / vy;
+                            endTime += Math.abs(endY) / vy;
                             bezier = false;
                         }
                         deleteNote = true;
@@ -292,36 +375,43 @@ function gaming() {
                     if (line !== undefined) {
                         this.line = line;
                     }
-                    if (time <= endT) {
+                    if (time <= endTime) {
                         this.x = x;
                         this.y = y;
                         this.over = false;
                     }
-                    if (time < startT) {
+                    if (time < startTime) {
                         this.over = true;
                     }
-                    if (time >= startT && time <= endT) {
-                        let vx = (endX - x) / (endT - startT);
-                        let vy = (endY - y) / (endT - startT);
+                    if (time >= startTime && time <= endTime) {
                         if (!bezier) {
-                            let vx = (endX - x) / (endT - startT);
-                            let vy = (endY - y) / (endT - startT);
-                            this.x = x + (time - startT) * vx;
-                            this.y = y + (time - startT) * vy;
-                            if (this.type == 'hold') {
-                                let vheight =  (endHeight - height) / (endT - startT);
-                                this.height = height + (time - startT) * vheight;
+                            if (x != endX) {
+                                let vx = (endX - x) / (endTime - startTime);
+                                this.x = x + (time - startTime) * vx;
+                            }
+                            if (y != endY) {
+                                let vy = (endY - y) / (endTime - startTime);
+                                this.y = y + (time - startTime) * vy;
+                            }
+                            if (this.type == 'hold' && height != endHeight) {
+                                let vheight =  (endHeight - height) / (endTime - startTime);
+                                this.height = height + (time - startTime) * vheight;
                             }
                         } else {
-                            let t = (time - startT) / (endT - startT);
-                            this.x = x + (endX - x) * (3 * ((1 - t) ** 2) * bezier.x1 * t + 3 * ((1 - t) ** 2) * bezier.x2 * t ** 2 + t ** 3);
-                            this.y = y + (endY - y) * (3 * ((1 - t) ** 2) * bezier.y1 * t + 3 * ((1 - t) ** 2) * bezier.y2 * t ** 2 + t ** 3);
-                            if (this.type == 'hold') {
-                                this.height = height + (endHeight - height) * (3 * ((1 - t) ** 2) * bezier.y1 * t + 3 * ((1 - t) ** 2) * bezier.y2 * t ** 2 + t ** 3);
+                            const t = (time - startTime) / (endTime - startTime);
+                            const BEZIER = (3 * ((1 - t) ** 2) * bezier.x1 * t + 3 * ((1 - t) ** 2) * bezier.x2 * t ** 2 + t ** 3);
+                            if (x != endX) {
+                                this.x = x + (endX - x) * BEZIER;
+                            }
+                            if (y != endY) {
+                                this.y = y + (endY - y) * BEZIER;
+                            }
+                            if (this.type == 'hold' && height != endHeight) {
+                                this.height = height + (endHeight - height) * BEZIER;
                             }
                         }
                     }
-                    if (time > endT) {
+                    if (time > endTime) {
                         this.x = endX;
                         this.y = endY;
                         if (deleteNote) {
@@ -332,62 +422,210 @@ function gaming() {
                 }
             }
             class block {
-                constructor(x = 0, y = 0, deg = 0, width = 1500, alpha = 1) {
+                constructor(x = 0, y = 0, eulerAngle = 0, width = 1500, alpha = 1, color = {r: 255, g: 255, b: 255}) {
                     this.x = x;
                     this.y = y;
-                    this.deg = deg;
+                    this.eulerAngle = eulerAngle;
                     this.width = width;
                     this.alpha = alpha;
+                    this.color = color;
                 }
                 transformBlock() {
                     for (let i = 0; i < 4; i++) {
                         spectral.lines[i].width = this.width;
                         spectral.lines[i].alpha = this.alpha;
+                        spectral.lines[i].color = this.color;
                     }
-                    spectral.lines[0].x = this.x + this.width / 2 * Math.sin(Math.PI / 180 * this.deg);
-                    spectral.lines[0].y = this.y - this.width / 2 * Math.cos(Math.PI / 180 * (0 - this.deg));
-                    spectral.lines[0].deg = this.deg + 180;
-                    spectral.lines[1].x = this.x + this.width / 2 * Math.sin(Math.PI / 180 * (this.deg - 90));
-                    spectral.lines[1].y = this.y + this.width / 2 * Math.cos(Math.PI / 180 * (this.deg + 90));
-                    spectral.lines[1].deg = this.deg + 90;
-                    spectral.lines[2].x = this.x + this.width / 2 * Math.sin(Math.PI / 180 * (0 - this.deg));
-                    spectral.lines[2].y = this.y + this.width / 2 * Math.cos(Math.PI / 180 * this.deg);
-                    spectral.lines[2].deg = this.deg;
-                    spectral.lines[3].x = this.x + this.width / 2 * Math.sin(Math.PI / 180 * (this.deg + 90));
-                    spectral.lines[3].y = this.y + this.width / 2 * Math.cos(Math.PI / 180 * (this.deg - 90));
-                    spectral.lines[3].deg = this.deg - 90;
+                    spectral.lines[0].x = this.x + this.width / 2 * Math.sin(Math.PI / 180 * this.eulerAngle);
+                    spectral.lines[0].y = this.y - this.width / 2 * Math.cos(Math.PI / 180 * (0 - this.eulerAngle));
+                    spectral.lines[0].eulerAngle = this.eulerAngle + 180;
+                    spectral.lines[1].x = this.x + this.width / 2 * Math.sin(Math.PI / 180 * (this.eulerAngle - 90));
+                    spectral.lines[1].y = this.y + this.width / 2 * Math.cos(Math.PI / 180 * (this.eulerAngle + 90));
+                    spectral.lines[1].eulerAngle = this.eulerAngle + 90;
+                    spectral.lines[2].x = this.x + this.width / 2 * Math.sin(Math.PI / 180 * (0 - this.eulerAngle));
+                    spectral.lines[2].y = this.y + this.width / 2 * Math.cos(Math.PI / 180 * this.eulerAngle);
+                    spectral.lines[2].eulerAngle = this.eulerAngle;
+                    spectral.lines[3].x = this.x + this.width / 2 * Math.sin(Math.PI / 180 * (this.eulerAngle + 90));
+                    spectral.lines[3].y = this.y + this.width / 2 * Math.cos(Math.PI / 180 * (this.eulerAngle - 90));
+                    spectral.lines[3].eulerAngle = this.eulerAngle - 90;
                 }
-                move({x = this.x, y = this.y, deg = this.deg, width = this.width, alpha = this.alpha, endX = 0, endY = 0, endDeg = 0, endWidth = 10000, endAlpha = 1, bezier=false, startT, endT} = {}) {
-                    // console.log(x, y, deg, width, endX, endY, endDeg, endWidth, startT, endT);
-                    if (time >= startT && time <= endT) {
+                move({x = this.x, y = this.y, eulerAngle = this.eulerAngle, width = this.width, alpha = this.alpha, color = this.color, endX = this.x, endY = this.y, endEulerAngle = this.eulerAngle, endWidth = this.width, endAlpha = this.alpha, endColor = this.color, bezier=false, startTime, endTime} = {}) {
+                    if (time <= endTime) {
+                        this.x = x;
+                        this.y = y;
+                        this.width = width;
+                        this.alpha = alpha;
+                        this.color.r = color.r;
+                        this.color.g = color.g;
+                        this.color.b = color.b;
+                    }
+                    if (time >= startTime && time <= endTime) {
                         if (!bezier) {
-                            let vx = (endX - x) / (endT - startT);
-                            let vy = (endY - y) / (endT - startT);
-                            let vdeg = (endDeg - deg) / (endT - startT);
-                            let vwidth = (endWidth - width) / (endT - startT);
-                            let valpha = (endAlpha - alpha) / (endT - startT);
-                            this.x = x + (time - startT) * vx;
-                            this.y = y + (time - startT) * vy;
-                            this.deg = deg + (time - startT) * vdeg;
-                            this.width = width + (time - startT) * vwidth;
-                            this.alpha = alpha + (time - startT) * valpha;
+                            if (x != endX) {
+                                let vx = (endX - x) / (endTime - startTime);
+                                this.x = x + (time - startTime) * vx;
+                            }
+                            if (y != endY) {
+                                let vy = (endY - y) / (endTime - startTime);
+                                this.y = y + (time - startTime) * vy;
+                            }
+                            if (eulerAngle != endEulerAngle) {
+                                let veulerAngle = (endEulerAngle - eulerAngle) / (endTime - startTime);
+                                this.eulerAngle = eulerAngle + (time - startTime) * veulerAngle;
+                            }
+                            if (width != endWidth) {
+                                let vwidth = (endWidth - width) / (endTime - startTime);
+                                this.width = width + (time - startTime) * vwidth;
+                            }
+                            if (alpha != endAlpha) {
+                                let valpha = (endAlpha - alpha) / (endTime - startTime);
+                                this.alpha = alpha + (time - startTime) * valpha;
+                            }
+                            if (color.r != endColor.r) {
+                                console.log(this.color.r, color.r, endColor.r);
+                                let vcolorR = (endColor.r - color.r) / (endTime - startTime);
+                                this.color.r = color.r + (time - startTime) * vcolorR;
+                            }
+                            if (color.g != endColor.g) {
+                                let vcolorG = (endColor.g - color.g) / (endTime - startTime);
+                                this.color.g = color.g + (time - startTime) * vcolorG;
+                            }
+                            if (color.b != endColor.b) {
+                                let vcolorB = (endColor.b - color.b) / (endTime - startTime);
+                                this.color.b = color.b + (time - startTime) * vcolorB;
+                            }
                         } else {
-                            let t = (time - startT) / (endT - startT);
-                            this.x = x + (endX - x) * (3 * ((1 - t) ** 2) * bezier.x1 * t + 3 * ((1 - t) ** 2) * bezier.x2 * t ** 2 + t ** 3);
-                            this.y = y + (endY - y) * (3 * ((1 - t) ** 2) * bezier.y1 * t + 3 * ((1 - t) ** 2) * bezier.y2 * t ** 2 + t ** 3);
-                            this.deg = deg + (endDeg - deg) * (3 * ((1 - t) ** 2) * bezier.y1 * t + 3 * ((1 - t) ** 2) * bezier.y2 * t ** 2 + t ** 3);
-                            this.width = width + (endWidth - width) * (3 * ((1 - t) ** 2) * bezier.y1 * t + 3 * ((1 - t) ** 2) * bezier.y2 * t ** 2 + t ** 3);
-                            this.alpha = alpha + (endAlpha - alpha) * (3 * ((1 - t) ** 2) * bezier.y1 * t + 3 * ((1 - t) ** 2) * bezier.y2 * t ** 2 + t ** 3);
+                            const t = (time - startTime) / (endTime - startTime);
+                            const BEZIER = (3 * ((1 - t) ** 2) * bezier.x1 * t + 3 * ((1 - t) ** 2) * bezier.x2 * t ** 2 + t ** 3);
+                            if (x != endX) {
+                                this.x = x + (endX - x) * BEZIER;
+                            }
+                            if (y != endY) {
+                                this.y = y + (endY - y) * BEZIER;
+                            }
+                            if (eulerAngle != endEulerAngle) {
+                                this.eulerAngle = eulerAngle + (endEulerAngle - eulerAngle) * BEZIER;
+                            }
+                            if (width != endWidth) {
+                                this.width = width + (endWidth - width) * BEZIER;
+                            }
+                            if (alpha != endAlpha) {
+                                this.alpha = alpha + (endAlpha - alpha) * BEZIER;
+                            }
+                            if (color.r != endColor.r) {
+                                this.color.r = color.r + (endColor.r - color.r) * BEZIER;
+                            }
+                            if (color.g != endColor.g) {
+                                this.color.g = color.g + (endColor.g - color.g) * BEZIER;
+                            }
+                            if (color.b != endColor.b) {
+                                this.color.b = color.b + (endColor.b - color.b) * BEZIER;
+                            }
                         }
                     }
-                    if (time > endT) {
+                    if (time > endTime) {
                         this.x = endX;
                         this.y = endY;
-                        this.deg = endDeg;
+                        this.eulerAngle = endEulerAngle;
                         this.width = endWidth;
                         this.alpha = endAlpha;
+                        this.color.r = endColor.r;
+                        this.color.g = endColor.g;
+                        this.color.b = endColor.b;
                     }
                     this.transformBlock();
+                }
+            }
+            class point {
+                constructor(graph = 0 ,x = 0, y = 0, alpha = 1, color = {r: 255, g: 255, b: 255}, close = true) {
+                    this.graph = graph;
+                    this.x = x;
+                    this.y = y;
+                    this.alpha = alpha;
+                    this.color = color;
+                    this.close = close;
+                }
+                draw(id){
+                    cvs.lineWidth = 8;
+                    cvs.setTransform(1, 0, 0, 1, $('#canvas').attr('width') / 2, 1125);
+                    cvs.globalAlpha = this.alpha;
+                    cvs.lineTo(this.x * 100, this.y * 100);
+                    if (display.pointId) {
+                        cvs.globalAlpha = 1;
+                        cvs.fillText(String(id), 0, 0);
+                    }
+                    cvs.stroke();
+                    cvs.restore();
+                }
+                move({x = this.x, y = this.y, alpha = this.alpha, color = this.color, endX = this.x, endY = this.y, endAlpha = this.alpha, endColor = this.color, bezier = false, close = true, startTime, endTime} = {}) {
+                    if (time <= endTime) {
+                        this.x = x;
+                        this.y = y;
+                        this.alpha = alpha;
+                        this.color.r = color.r;
+                        this.color.g = color.g;
+                        this.color.b = color.b;
+                    }
+                    this.close = close;
+                    if (time >= startTime && time <= endTime) {
+                        if (!bezier) {
+                            if (x != endX) {
+                                let vx = (endX - x) / (endTime - startTime);
+                                this.x = x + (time - startTime) * vx;
+                            }
+                            if (y != endY) {
+                                let vy = (endY - y) / (endTime - startTime);
+                                this.y = y + (time - startTime) * vy;
+                            }
+                            if (alpha != endAlpha) {
+                                let valpha = (endAlpha - alpha) / (endTime - startTime);
+                                this.alpha = alpha + (time - startTime) * valpha;
+                            }
+                            if (color.r != endColor.r) {
+                                let vcolorR = (endColor.r - color.r) / (endTime - startTime);
+                                this.color.r = color.r + (time - startTime) * vcolorR;
+                            }
+                            if (color.g != endColor.g) {
+                                let vcolorG = (endColor.g - color.g) / (endTime - startTime);
+                                this.color.g = color.g + (time - startTime) * vcolorG;
+                            }
+                            if (color.b != endColor.b) {
+                                let vcolorB = (endColor.b - color.b) / (endTime - startTime);
+                                this.color.b = color.b + (time - startTime) * vcolorB;
+                            }
+                        } else {
+                            const t = (time - startTime) / (endTime - startTime);
+                            const BEZIER = (3 * ((1 - t) ** 2) * bezier.x1 * t + 3 * ((1 - t) ** 2) * bezier.x2 * t ** 2 + t ** 3);
+                            if (x != endX) {
+                                this.x = x + (endX - x) * BEZIER;
+                            }
+                            if (y != endY) {
+                                this.y = y + (endY - y) * BEZIER;
+                            }
+                            if (alpha != endAlpha) {
+                                this.alpha = alpha + (endAlpha - alpha) * BEZIER;
+                            }
+                            if (color.r != endColor.r) {
+                                this.color.r = color.r + (endColor.r - color.r) * BEZIER;
+                            }
+                            if (color.g != endColor.g) {
+                                this.color.g = color.g + (endColor.g - color.g) * BEZIER;
+                            }
+                            if (color.b != endColor.b) {
+                                this.color.b = color.b + (endColor.b - color.b) * BEZIER;
+                            }
+                        }
+                    }
+                    if (time > endTime) {
+                        this.x = endX;
+                        this.y = endY;
+                        this.alpha = endAlpha;
+                        this.color.r = endColor.r;
+                        this.color.g = endColor.g;
+                        this.color.b = endColor.b;
+                        return true;
+                    }
+                    return false;
                 }
             }
             class gameBoard {
@@ -397,11 +635,22 @@ function gaming() {
                     document.getElementById('ui-time-time').value = 0;
                 }
                 init() {
-                    addNote(0, cvs, 0, 5000, 'tap', true);
-                    for (let i = 0; i < 4; i++) {
-                        addLine();
+                    if (spectral == null) {
+                        for (let i = 0; i < 4; i++) {
+                            addLine();
+                        }
+                        spectral.block = new block();
+                    } else {
+                        $('#ui-display-lines>ul').empty();
+                        spectral.notes = [];
+                        spectral.lines = [];
+                        for (let i = 0; i < 4; i++) {
+                            addLine();
+                        }
+                        spectral.block = new block();
+                        addgraph();
+                        addPoint();
                     }
-                    spectral.block = new block(cvs)
                 }
                 removeAll() {
                     removeLine(4, spectral.lines.length);
@@ -410,32 +659,46 @@ function gaming() {
                 // 动画循环（帧率）
                 process(now){
                     //init time
-                    if(!startTime){
-                        startTime = now;
+                    if(!lastTime){
+                        lastTime = now;
                     }
-                    let seconds = (now - startTime) / 1000;
-                    startTime = now;
+                    let seconds = (now - lastTime) / 1000;
+                    lastTime = now;
                     if (seconds) {
                         time = audio.currentTime * 100;
                         if (!timeFocus) {
                             document.getElementById('ui-time-time').value = Math.floor(time);
                         }
                     }
-                    cvs.clearRect(-10000, -10000, 20000, 20000);
+                    cvs.clearRect(-100000, -100000, 200000, 200000);
+                    cvs.setTransform(1, 0, 0, 1, $('#canvas').attr('width') / 2, 1125);
+                    cvs.textAlign = 'center';
+                    cvs.textBaseline = 'bottom';
+                    cvs.font = '100px Phigros, Phigros cn, Tw Cen MT'
+                    cvs.save();
                     for (let i = 0; i < spectral.blockMoves.length; i++) {
-                        spectral.block.move({x: spectral.blockMoves[i].x, y: spectral.blockMoves[i].y, deg: spectral.blockMoves[i].deg, width: spectral.blockMoves[i].width, alpha: spectral.blockMoves[i].alpha, endX: spectral.blockMoves[i].endX, endY: spectral.blockMoves[i].endY, endDeg: spectral.blockMoves[i].endDeg, endWidth: spectral.blockMoves[i].endWidth, endAlpha: spectral.blockMoves[i].endAlpha, bezier: spectral.blockMoves[i].bezier, startT: spectral.blockMoves[i].startT, endT: spectral.blockMoves[i].endT});
+                        spectral.block.move({x: spectral.blockMoves[i].x, y: spectral.blockMoves[i].y, eulerAngle: spectral.blockMoves[i].eulerAngle, width: spectral.blockMoves[i].width, alpha: spectral.blockMoves[i].alpha, color: spectral.blockMoves[i].color, endX: spectral.blockMoves[i].endX, endY: spectral.blockMoves[i].endY, endEulerAngle: spectral.blockMoves[i].endEulerAngle, endWidth: spectral.blockMoves[i].endWidth, endAlpha: spectral.blockMoves[i].endAlpha, endColor: spectral.blockMoves[i].endColor, bezier: spectral.blockMoves[i].bezier, startTime: spectral.blockMoves[i].startTime, endTime: spectral.blockMoves[i].endTime});
                     }
                     for (let i = 0; i < spectral.lineMoves.length; i++) {
                         while (!spectral.lines[spectral.lineMoves[i].line]) {
                             addLine();
                         }
-                        spectral.lines[spectral.lineMoves[i].line].move({x: spectral.lineMoves[i].x, y: spectral.lineMoves[i].y, deg: spectral.lineMoves[i].deg, width: spectral.lineMoves[i].width, alpha: spectral.lineMoves[i].alpha, endX: spectral.lineMoves[i].endX, endY: spectral.lineMoves[i].endY, endDeg: spectral.lineMoves[i].endDeg, endWidth: spectral.lineMoves[i].endWidth, endAlpha: spectral.lineMoves[i].endAlpha, bezier: spectral.lineMoves[i].bezier, startT: spectral.lineMoves[i].startT, endT: spectral.lineMoves[i].endT});
+                        spectral.lines[spectral.lineMoves[i].line].move({x: spectral.lineMoves[i].x, y: spectral.lineMoves[i].y, eulerAngle: spectral.lineMoves[i].eulerAngle, width: spectral.lineMoves[i].width, alpha: spectral.lineMoves[i].alpha, color: spectral.lineMoves[i].color, endX: spectral.lineMoves[i].endX, endY: spectral.lineMoves[i].endY, endEulerAngle: spectral.lineMoves[i].endEulerAngle, endWidth: spectral.lineMoves[i].endWidth, endAlpha: spectral.lineMoves[i].endAlpha, endColor: spectral.lineMoves[i].endColor, bezier: spectral.lineMoves[i].bezier, startTime: spectral.lineMoves[i].startTime, endTime: spectral.lineMoves[i].endTime});
                     }
                     for (let i = 0; i < spectral.noteMoves.length; i++) {
-                        while (!spectral.notes[spectral.noteMoves[i].note]) {
+                        while (!spectral.notes[spectral.noteMoves[i].note]) { //如果没有对应id的判定线，则添加
                             addNote(spectral.noteMoves[i].line, undefined, undefined, undefined, spectral.noteMoves[i].type);
                         }
-                        spectral.notes[spectral.noteMoves[i].note].move({line: spectral.noteMoves[i].line, x: spectral.noteMoves[i].x, y: spectral.noteMoves[i].y, endX: spectral.noteMoves[i].endX, endY: spectral.noteMoves[i].endY, bezier: spectral.noteMoves[i].bezier, startT: spectral.noteMoves[i].startT, endT: spectral.noteMoves[i].endT, type: spectral.noteMoves[i].type, height: spectral.noteMoves[i].height, endHeight: spectral.noteMoves[i].endHeight});
+                        spectral.notes[spectral.noteMoves[i].note].move({line: spectral.noteMoves[i].line, x: spectral.noteMoves[i].x, y: spectral.noteMoves[i].y, endX: spectral.noteMoves[i].endX, endY: spectral.noteMoves[i].endY, bezier: spectral.noteMoves[i].bezier, startTime: spectral.noteMoves[i].startTime, endTime: spectral.noteMoves[i].endTime, type: spectral.noteMoves[i].type, height: spectral.noteMoves[i].height, endHeight: spectral.noteMoves[i].endHeight});
+                    }
+                    for (let i = 0; i < spectral.pointMoves.length; i++) {
+                        while(!spectral.graphics[spectral.pointMoves[i].graph]) {
+                            addgraph();
+                        }
+                        while (!spectral.graphics[spectral.pointMoves[i].graph][spectral.pointMoves[i].point]) {
+                            addPoint(spectral.pointMoves[i].graph);
+                        }
+                        spectral.graphics[spectral.pointMoves[i].graph][spectral.pointMoves[i].point].move({x: spectral.pointMoves[i].x, y: spectral.pointMoves[i].y, alpha: spectral.pointMoves[i].alpha, color: spectral.pointMoves[i].color, endX: spectral.pointMoves[i].endX, endY: spectral.pointMoves[i].endY, endAlpha: spectral.pointMoves[i].endAlpha, endColor: spectral.pointMoves[i].endColor, bezier: spectral.pointMoves[i].bezier, close: spectral.pointMoves[i].close, startTime: spectral.pointMoves[i].startTime, endTime: spectral.pointMoves[i].endTime});
                     }
                     if (gl) {
                         spectral.lines[editLine].draw(editLine);
@@ -454,7 +717,21 @@ function gaming() {
                             spectral.notes[i].draw(i);
                         }
                     }
-                    // console.log('canvas refresh', now, startTime, seconds);
+                    for(var i = 0; i < spectral.graphics.length; i++) {
+                        cvs.setTransform(1, 0, 0, 1, $('#canvas').attr('width') / 2, 1125);
+                        cvs.beginPath();
+                        cvs.moveTo(spectral.graphics[i][0].x * 100, spectral.graphics[i][0].y * 100)
+                        for (let j = 0; j < spectral.graphics[i].length; j++) {
+                            spectral.graphics[i][j].draw(i);
+                        }
+                        if (spectral.graphics[i][spectral.graphics[i].length - 1].close) {
+                            cvs.closePath();
+                            cvs.fillStyle = `rgb(${spectral.graphics[i][spectral.graphics[i].length - 1].color.r}, ${spectral.graphics[i][spectral.graphics[i].length - 1].color.g}, ${spectral.graphics[i][spectral.graphics[i].length - 1].color.b})`;
+                            cvs.strokeStyle = `rgb(${spectral.graphics[i][spectral.graphics[i].length - 1].color.r}, ${spectral.graphics[i][spectral.graphics[i].length - 1].color.g}, ${spectral.graphics[i][spectral.graphics[i].length - 1].color.b})`;
+                            cvs.stroke();
+                        }
+                    }
+                    // console.log('canvas refresh', now, lastTime, seconds);
                     // 动画循环（帧率）
                     var gameLoop = window.requestAnimationFrame(this.process.bind(this));
                 }
@@ -463,3 +740,4 @@ function gaming() {
         }
     };
 }
+gaming();
