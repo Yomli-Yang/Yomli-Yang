@@ -14,9 +14,11 @@ var display = {
     drag: true,
     hold: true,
     lineId: true,
-    noteId: true
+    noteId: true,
+    pointId: true,
+    textId: true
 },
-timeFocus = false, gl = false, editLine = undefined;
+timeFocus = false, gl = false, editLine = undefined, offset = 0;
 
 function lineEdit(id = 0) {
     gl = true;
@@ -29,7 +31,20 @@ function cancelLineEdit() {
 }
 
 function gaming() {
-    if (spectral == null) {
+    // init vars
+    var cvs = document.getElementById('canvas');
+    var lS = window.localStorage;
+    if (!lS.settings) {
+        lS['settings'] = `{"pmyc":0,"buttonSize":100,"OFBlur": true,"bgBlur":100,"OFAudio":true,"gameAudio":100,"uiAudio":100,"touchAudio":100,"OFDyfz":true,"OFFcApzsq":true,"OFEffect":true,"OFAutoPlay":false,"listProportion":"16:9"}`;
+    }
+    var settings = JSON.parse(lS.settings);
+    let time = -300, lastTime = 0, lineColor = '#ffffff',
+    imgs = {
+        tap: new Image(),
+        drag: new Image(),
+        hold: new Image()
+    }
+    if (!uploadSpectral) {
         spectral = {
             block: null,
             blockMoves: [
@@ -68,10 +83,24 @@ function gaming() {
                 {graph: 1, point: 0, y: 0, endY: -6, x: 0, endX: 4, bezier: {x1: 0.5, y1: 0.2, x2: 0, y2: 1.3}, startTime: 0, endTime: 600},
                 {graph: 1, point: 1, y: 0, endY: 3, bezier: {x1: 0, y1: 0.2, x2: 0, y2: 1.3}, startTime: 0, endTime: 600},
                 {graph: 1, point: 2, y: 0, endY: 3, bezier: {x1: 0, y1: 0.2, x2: 0, y2: 1.3}, startTime: 0, endTime: 600},
-                {graph: 1, point: 3, x: 0, endX: -6, y: 0, endY: 4, color: {r: 255, g: 255, b: 255}, endColor: {r: 60, g: 200, b: 250}, startTime: 0, endTime: 600},
+                {graph: 1, point: 3, x: 0, endX: -6, y: 0, endY: 4, color: {r: 255, g: 255, b: 255}, endColor: {r: 60, g: 200, b: 250}, close: false, startTime: 0, endTime: 600},
                 {graph: 1, point: 2, endY: -1, bezier: {x1: 0, y1: 0, x2: 0.5, y2: 0.75}, startTime: 500, endTime: 1000},
             ],
+            texts: [],
+            textMoves: [
+                {textId: 0, alpha: 0, endAlpha: 1, text: 'Hello World!', font: '100px Phigros, Phigros cn, Tw Cen MT', startTime: 0, endTime: 200},
+                {textId: 0, x: 0, endX: -12, eulerAngle: 0, endEulerAngle: 25, color: {r: 255, g: 255, b: 255}, endColor: {r: 255, g: 200, b: 200}, text: 'Hello World', font: '90px Phigros, Phigros cn, Tw Cen MT', bezier: {x1: 0, y1: 0, x2: 0.5, y2: 0.75}, startTime: 200, endTime: 400}
+            ]
         }
+    } else {
+        offset = settings.pmyc = uploadSpectral.offset;
+        lS.settings = JSON.stringify(settings);
+        spectral = {block: null, blockMoves: [], lines: [], lineMoves: [], notes: [], noteMoves: [], graphics: [], pointMoves: [], texts: [], textMoves: []};
+        spectral.blockMoves = uploadSpectral.spectral.block;
+        spectral.lineMoves = uploadSpectral.spectral.line
+        spectral.noteMoves = uploadSpectral.spectral.note;
+        spectral.pointMoves = uploadSpectral.spectral.point;
+        spectral.textMoves = uploadSpectral.spectral.text;
     }
     function loadGame({music, bg = 'none', songName='?', author='unknown', tDfcy='EZ', dfcy='?'}) {
         audio = document.querySelector('#ui-time-audio');
@@ -79,13 +108,17 @@ function gaming() {
             $('#bg').attr('src', '../' + bg);
             // $('#canvas').css('background-image', `url(../${bg})`);
         }
-        // initCanvas
+        // init offset
+        if (settings.pmyc) {
+            offset = settings.pmyc;
+        }
+        // init canvas
         cvs.width = 3000;
         cvs.height = 2250;
         if (settings.listProportion == '16:9' || settings.proportion == undefined) {
-            $('#canvas').css('width', $('body').height() / 9 * 16);
+            $('#canvas').css('width', $('body').height() * 0.9 / 9 * 16);
         } else {
-            $('#canvas').css('width', $('body').height() / 3 * 4);
+            $('#canvas').css('width', $('body').height() * 0.9 / 3 * 4);
         }
         cvs = cvs.getContext('2d');
         cvs.setTransform(1, 0, 0, 1, $('#canvas').attr('width') / 2, 1125);
@@ -97,19 +130,6 @@ function gaming() {
     // init UI
     $('body>*').hide();
     $('#ui, #info, #bg, #blur').show();
-    // init vars
-    var cvs = document.getElementById('canvas');
-    var lS = window.localStorage;
-    if (!lS.settings) {
-        lS['settings'] = `{"pmyc":0,"buttonSize":100,"OFBlur": true,"bgBlur":100,"OFAudio":true,"gameAudio":100,"uiAudio":100,"touchAudio":100,"OFDyfz":true,"OFFcApzsq":true,"OFEffect":true,"OFAutoPlay":false,"listProportion":"16:9"}`;
-    }
-    var settings = JSON.parse(lS.settings);
-    let time = -300, lastTime = 0, lineColor = '#ffffff',
-    imgs = {
-        tap: new Image(),
-        drag: new Image(),
-        hold: new Image()
-    }
     loadGame({music: 'audio/Happy Life.mp3', bg: 'img/icon/icon.jpg'});
     imgs.tap.src = 'img/ui/Tap2.png';
     imgs.drag.src = 'img/ui/drag.png';
@@ -117,18 +137,21 @@ function gaming() {
     let gameLoad = false;
     document.body.onresize = () => {
         if (settings.listProportion == '16:9' || settings.listProportion == undefined) {
-            $('#canvas').css('width', $('body').height() / 9 * 16);
+            $('#canvas').css('width', $('body').height() * 0.8 / 9 * 16);
         } else {
-            $('#canvas').css('width', $('body').height() / 3 * 4);
+            $('#canvas').css('width', $('body').height() * 0.8 / 3 * 4);
         }
     };
     window.onstorage = () => {
         console.log('refresh');
         settings = JSON.parse(lS.settings);
         if (settings.listProportion == '16:9' || settings.listProportion == undefined) {
-            $('#canvas').css('width', $('body').height() / 9 * 16);
+            $('#canvas').css('width', $('body').height() * 0.8 / 9 * 16);
         } else {
-            $('#canvas').css('width', $('body').height() / 3 * 4);
+            $('#canvas').css('width', $('body').height() * 0.8 / 3 * 4);
+        }
+        if (settings.pmyc) {
+            offset = settings.pmyc;
         }
     };
     audio.oncanplaythrough = () => {
@@ -141,6 +164,10 @@ function gaming() {
             function addLine(x, y, eulerAngle, width, alpha, color) {
                 $('#ui-display-lines>ul').append(`<li class="line canEdit" data-lineId="${spectral.lines.length}">line&nbsp;${spectral.lines.length}</li>`);
                 spectral.lines.push(new line(x, y, eulerAngle, width, alpha, color));
+            }
+            function addText(x, y, eulerAngle, _text, alpha, color) {
+                // $('#ui-display-lines>ul').append(`<li class="line canEdit" data-lineId="${spectral.lines.length}">line&nbsp;${spectral.lines.length}</li>`);
+                spectral.texts.push(new text(x, y, eulerAngle, _text, alpha, color));
             }
             function addgraph() {
                 spectral.graphics.push([]);
@@ -334,6 +361,7 @@ function gaming() {
                             }
                             if (display.noteId) {
                                 cvs.globalAlpha = 1;
+                                cvs.fillStyle = '#ffffff';
                                 cvs.fillText(id, this.x * 100, 0 - (this.y * 100 + 12.5));
                             }
                             cvs.restore();
@@ -552,9 +580,9 @@ function gaming() {
                     cvs.lineTo(this.x * 100, this.y * 100);
                     if (display.pointId) {
                         cvs.globalAlpha = 1;
-                        cvs.fillText(String(id), 0, 0);
+                        cvs.fillStyle = '#ffffff';
+                        cvs.fillText(String(id), this.x * 100, this.y * 100 + 100);
                     }
-                    cvs.stroke();
                     cvs.restore();
                 }
                 move({x = this.x, y = this.y, alpha = this.alpha, color = this.color, endX = this.x, endY = this.y, endAlpha = this.alpha, endColor = this.color, bezier = false, close = true, startTime, endTime} = {}) {
@@ -566,8 +594,8 @@ function gaming() {
                         this.color.g = color.g;
                         this.color.b = color.b;
                     }
-                    this.close = close;
                     if (time >= startTime && time <= endTime) {
+                        this.close = close;
                         if (!bezier) {
                             if (x != endX) {
                                 let vx = (endX - x) / (endTime - startTime);
@@ -620,6 +648,116 @@ function gaming() {
                         this.x = endX;
                         this.y = endY;
                         this.alpha = endAlpha;
+                        this.close = close;
+                        this.color.r = endColor.r;
+                        this.color.g = endColor.g;
+                        this.color.b = endColor.b;
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            class text{
+                constructor(x = 0, y = 0, eulerAngle = 0, text = '', font = '100px Phigros, Phigros cn, Tw Cen MT', alpha = 1, color = {r: 255, g: 255, b: 255}) {
+                    this.x = x;
+                    this.y = y;
+                    this.eulerAngle = eulerAngle;
+                    this.text = text;
+                    this.font = font;
+                    this.alpha = alpha;
+                    this.color = color;
+                }
+                draw(id){
+                    cvs.fillStyle = `rgb(${this.color.r}, ${this.color.g}, ${this.color.b})`;
+                    cvs.strokeStyle = `rgb(${this.color.r}, ${this.color.g}, ${this.color.b})`;
+                    cvs.setTransform(1, 0, 0, 1, $('#canvas').attr('width') / 2 + this.x * 100, 1125 + this.y * 100);
+                    cvs.rotate(this.eulerAngle * Math.PI / 180);
+                    cvs.globalAlpha = this.alpha;
+                    cvs.font = this.font;
+                    cvs.fillText(this.text, 0, 0);
+                    cvs.font = '100px Phigros, Phigros cn, Tw Cen MT';
+                    if (display.textId) {
+                        cvs.globalAlpha = 1;
+                        cvs.fillText(String(id), 0, 100);
+                    }
+                    cvs.restore();
+                }
+                move({x = this.x, y = this.y, eulerAngle = this.eulerAngle, text = this.text, font = this.font, alpha = this.alpha, color = this.color, endX = this.x, endY = this.y, endEulerAngle = this.eulerAngle, endAlpha = this.alpha, endColor = this.color, bezier = false, startTime, endTime} = {}) {
+                    if (time <= endTime) {
+                        this.x = x;
+                        this.y = y;
+                        this.eulerAngle = eulerAngle;
+                        this.alpha = alpha;
+                        this.color.r = color.r;
+                        this.color.g = color.g;
+                        this.color.b = color.b;
+                    }
+                    if (time >= startTime && time <= endTime) {
+                        this.text = text;
+                        this.font = font;
+                        if (!bezier) {
+                            if (x != endX) {
+                                let vx = (endX - x) / (endTime - startTime);
+                                this.x = x + (time - startTime) * vx;
+                            }
+                            if (y != endY) {
+                                let vy = (endY - y) / (endTime - startTime);
+                                this.y = y + (time - startTime) * vy;
+                            }
+                            if (eulerAngle != endEulerAngle) {
+                                let veulerAngle = (endEulerAngle - eulerAngle) / (endTime - startTime);
+                                this.eulerAngle = eulerAngle + (time - startTime) * veulerAngle;
+                            }
+                            if (alpha != endAlpha) {
+                                let valpha = (endAlpha - alpha) / (endTime - startTime);
+                                this.alpha = alpha + (time - startTime) * valpha;
+                            }
+                            if (color.r != endColor.r) {
+                                console.log(this.color.r, color.r, endColor.r);
+                                let vcolorR = (endColor.r - color.r) / (endTime - startTime);
+                                this.color.r = color.r + (time - startTime) * vcolorR;
+                            }
+                            if (color.g != endColor.g) {
+                                let vcolorG = (endColor.g - color.g) / (endTime - startTime);
+                                this.color.g = color.g + (time - startTime) * vcolorG;
+                            }
+                            if (color.b != endColor.b) {
+                                let vcolorB = (endColor.b - color.b) / (endTime - startTime);
+                                this.color.b = color.b + (time - startTime) * vcolorB;
+                            }
+                        } else {
+                            const t = (time - startTime) / (endTime - startTime);
+                            const BEZIER = (3 * ((1 - t) ** 2) * bezier.x1 * t + 3 * ((1 - t) ** 2) * bezier.x2 * t ** 2 + t ** 3);
+                            if (x != endX) {
+                                this.x = x + (endX - x) * BEZIER;
+                            }
+                            if (y != endY) {
+                                this.y = y + (endY - y) * BEZIER;
+                            }
+                            if (eulerAngle != endEulerAngle) {
+                                this.eulerAngle = eulerAngle + (endEulerAngle - eulerAngle) * BEZIER;
+                            }
+                            if (alpha != endAlpha) {
+                                this.alpha = alpha + (endAlpha - alpha) * BEZIER;
+                            }
+                            if (color.r != endColor.r) {
+                                this.color.r = color.r + (endColor.r - color.r) * BEZIER;
+                            }
+                            if (color.g != endColor.g) {
+                                this.color.g = color.g + (endColor.g - color.g) * BEZIER;
+                            }
+                            if (color.b != endColor.b) {
+                                this.color.b = color.b + (endColor.b - color.b) * BEZIER;
+                            }
+                        }
+                    }
+                    if (time > endTime) {
+                        this.x = endX;
+                        this.y = endY;
+                        this.eulerAngle = endEulerAngle;
+                        this.alpha = endAlpha;
+                        this.text = text;
+                        this.font = font;
                         this.color.r = endColor.r;
                         this.color.g = endColor.g;
                         this.color.b = endColor.b;
@@ -632,7 +770,6 @@ function gaming() {
                 constructor() {
                     this.init();
                     this.process();
-                    document.getElementById('ui-time-time').value = 0;
                 }
                 init() {
                     if (spectral == null) {
@@ -648,8 +785,6 @@ function gaming() {
                             addLine();
                         }
                         spectral.block = new block();
-                        addgraph();
-                        addPoint();
                     }
                 }
                 removeAll() {
@@ -665,9 +800,9 @@ function gaming() {
                     let seconds = (now - lastTime) / 1000;
                     lastTime = now;
                     if (seconds) {
-                        time = audio.currentTime * 100;
+                        time = audio.currentTime * 100 - offset;
                         if (!timeFocus) {
-                            document.getElementById('ui-time-time').value = Math.floor(time);
+                            document.getElementById('ui-time-time').value = Math.floor(time + offset);
                         }
                     }
                     cvs.clearRect(-100000, -100000, 200000, 200000);
@@ -678,6 +813,12 @@ function gaming() {
                     cvs.save();
                     for (let i = 0; i < spectral.blockMoves.length; i++) {
                         spectral.block.move({x: spectral.blockMoves[i].x, y: spectral.blockMoves[i].y, eulerAngle: spectral.blockMoves[i].eulerAngle, width: spectral.blockMoves[i].width, alpha: spectral.blockMoves[i].alpha, color: spectral.blockMoves[i].color, endX: spectral.blockMoves[i].endX, endY: spectral.blockMoves[i].endY, endEulerAngle: spectral.blockMoves[i].endEulerAngle, endWidth: spectral.blockMoves[i].endWidth, endAlpha: spectral.blockMoves[i].endAlpha, endColor: spectral.blockMoves[i].endColor, bezier: spectral.blockMoves[i].bezier, startTime: spectral.blockMoves[i].startTime, endTime: spectral.blockMoves[i].endTime});
+                    }
+                    for (let i = 0; i < spectral.textMoves.length; i++) {
+                        while (!spectral.texts[spectral.textMoves[i].textId]) {
+                            addText();
+                        }
+                        spectral.texts[spectral.textMoves[i].textId].move({x: spectral.textMoves[i].x, y: spectral.textMoves[i].y, eulerAngle: spectral.textMoves[i].eulerAngle, text: spectral.textMoves[i].text, font: spectral.textMoves[i].font, alpha: spectral.textMoves[i].alpha, color: spectral.textMoves[i].color, endX: spectral.textMoves[i].endX, endY: spectral.textMoves[i].endY, endEulerAngle: spectral.textMoves[i].endEulerAngle, endAlpha: spectral.textMoves[i].endAlpha, endColor: spectral.textMoves[i].endColor, bezier: spectral.textMoves[i].bezier, startTime: spectral.textMoves[i].startTime, endTime: spectral.textMoves[i].endTime});
                     }
                     for (let i = 0; i < spectral.lineMoves.length; i++) {
                         while (!spectral.lines[spectral.lineMoves[i].line]) {
@@ -700,6 +841,23 @@ function gaming() {
                         }
                         spectral.graphics[spectral.pointMoves[i].graph][spectral.pointMoves[i].point].move({x: spectral.pointMoves[i].x, y: spectral.pointMoves[i].y, alpha: spectral.pointMoves[i].alpha, color: spectral.pointMoves[i].color, endX: spectral.pointMoves[i].endX, endY: spectral.pointMoves[i].endY, endAlpha: spectral.pointMoves[i].endAlpha, endColor: spectral.pointMoves[i].endColor, bezier: spectral.pointMoves[i].bezier, close: spectral.pointMoves[i].close, startTime: spectral.pointMoves[i].startTime, endTime: spectral.pointMoves[i].endTime});
                     }
+                    for(var i = 0; i < spectral.graphics.length; i++) {
+                        cvs.setTransform(1, 0, 0, 1, $('#canvas').attr('width') / 2, 1125);
+                        cvs.beginPath();
+                        cvs.moveTo(spectral.graphics[i][0].x * 100, spectral.graphics[i][0].y * 100)
+                        for (let j = 0; j < spectral.graphics[i].length; j++) {
+                            spectral.graphics[i][j].draw(i + '-' + j);
+                        }
+                        cvs.fillStyle = `rgb(${spectral.graphics[i][spectral.graphics[i].length - 1].color.r}, ${spectral.graphics[i][spectral.graphics[i].length - 1].color.g}, ${spectral.graphics[i][spectral.graphics[i].length - 1].color.b})`;
+                        cvs.strokeStyle = `rgb(${spectral.graphics[i][spectral.graphics[i].length - 1].color.r}, ${spectral.graphics[i][spectral.graphics[i].length - 1].color.g}, ${spectral.graphics[i][spectral.graphics[i].length - 1].color.b})`;
+                        if (spectral.graphics[i][spectral.graphics[i].length - 1].close) {
+                            cvs.closePath();
+                        }
+                        cvs.stroke();
+                    }
+                    for(var i = 0; i < spectral.texts.length; i++) {
+                        spectral.texts[i].draw(i);
+                    }
                     if (gl) {
                         spectral.lines[editLine].draw(editLine);
                     } else {
@@ -715,20 +873,6 @@ function gaming() {
                     for(var i = 0; i < spectral.notes.length; i++) {
                         if (display.block[spectral.notes[i].line] || spectral.notes[i].line > 3) {
                             spectral.notes[i].draw(i);
-                        }
-                    }
-                    for(var i = 0; i < spectral.graphics.length; i++) {
-                        cvs.setTransform(1, 0, 0, 1, $('#canvas').attr('width') / 2, 1125);
-                        cvs.beginPath();
-                        cvs.moveTo(spectral.graphics[i][0].x * 100, spectral.graphics[i][0].y * 100)
-                        for (let j = 0; j < spectral.graphics[i].length; j++) {
-                            spectral.graphics[i][j].draw(i);
-                        }
-                        if (spectral.graphics[i][spectral.graphics[i].length - 1].close) {
-                            cvs.closePath();
-                            cvs.fillStyle = `rgb(${spectral.graphics[i][spectral.graphics[i].length - 1].color.r}, ${spectral.graphics[i][spectral.graphics[i].length - 1].color.g}, ${spectral.graphics[i][spectral.graphics[i].length - 1].color.b})`;
-                            cvs.strokeStyle = `rgb(${spectral.graphics[i][spectral.graphics[i].length - 1].color.r}, ${spectral.graphics[i][spectral.graphics[i].length - 1].color.g}, ${spectral.graphics[i][spectral.graphics[i].length - 1].color.b})`;
-                            cvs.stroke();
                         }
                     }
                     // console.log('canvas refresh', now, lastTime, seconds);
